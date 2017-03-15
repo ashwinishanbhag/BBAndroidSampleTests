@@ -28,3 +28,21 @@ dependencies {
     compile 'com.android.support:design:25.1.1'
     testCompile 'junit:junit:4.12'
 }
+
+tasks.withType(Test) {
+    beforeSuite { descriptor ->
+        logger.lifecycle(String.format("BuddyBuild Starting Test Suite: %s}",descriptor))
+    }
+
+    afterSuite { descriptor ->
+        logger.lifecycle(String.format("BuddyBuild Finished Test Suite: %s}",descriptor))
+    }
+
+    beforeTest { descriptor ->
+        logger.lifecycle(String.format("BuddyBuild Starting Test: %s",descriptor.name))
+    }
+
+    afterTest { descriptor, result ->
+        logger.lifecycle(String.format("BuddyBuild Finished Test: %s [%.3fs] - %s", descriptor.name, ((result.endTime - result.startTime) / 1000), result.resultType))
+    }
+}
